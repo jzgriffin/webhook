@@ -13,11 +13,7 @@ def webhook():
         app.logger.warning('POST from unrecognized address ' + request.remote_addr)
         abort(403)
 
-    if not 'payload' in request.form:
-        app.logger.error('POST did not contain payload')
-        abort(412)
-
-    payload = json.loads(request.form['payload'])
+    payload = request.get_json()
     owner = payload['repository']['owner']['name']
     name = payload['repository']['name']
 
